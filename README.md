@@ -7,7 +7,9 @@ The cpu status has 2 parameters (1 bit)
 - B: 1 if the cmp result is _greater than_
 
 ## Registers
-a, b, c, d = 8 bit 0x01
+a, b, c, d = 8 bit 0x00, 0x01, 0x02, 0x03
+
+ca, cb, cc, cd = 8 bit 0x04, 0x05, 0x06, 0x07
 
 Program counter = 16 bit
 

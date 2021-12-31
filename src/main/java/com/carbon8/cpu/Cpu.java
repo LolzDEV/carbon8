@@ -8,6 +8,7 @@ public class Cpu {
 
     short PC = 0x0000;
     public byte[] registers = new byte[4];
+    public byte[] component = new byte[4];
     public byte[] memory = new byte[MEMORY_SIZE];
     short SP = 0x0000;
     public BitSet status = new BitSet(); // 0: A, 1: B
@@ -20,7 +21,6 @@ public class Cpu {
 
     public void run() {
         while (PC != MEMORY_SIZE) {
-            System.out.println(Arrays.toString(memory));
             byte value = getOpcode();
             this.execute(value);
         }

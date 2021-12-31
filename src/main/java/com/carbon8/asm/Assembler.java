@@ -16,8 +16,7 @@ public class Assembler {
             String[] tokens = line.split(" ");
             if (tokens[0].startsWith(":")) {
                 labels.put(tokens[0].substring(1), PC);
-            } else if (tokens[0].startsWith(";")){
-            } else {
+            } else if (!tokens[0].startsWith(";")) {
                 switch (tokens[0]) {
                     case "lda" -> {
                         switch (tokens[1]) {
@@ -36,6 +35,22 @@ public class Assembler {
                             case "d" -> {
                                 program.addOpCode((byte) 0x02);
                                 program.addOpCode((byte) 0x03);
+                            }
+                            case "ca" -> {
+                                program.addOpCode((byte) 0x02);
+                                program.addOpCode((byte) 0x04);
+                            }
+                            case "cb" -> {
+                                program.addOpCode((byte) 0x02);
+                                program.addOpCode((byte) 0x05);
+                            }
+                            case "cc" -> {
+                                program.addOpCode((byte) 0x02);
+                                program.addOpCode((byte) 0x06);
+                            }
+                            case "cd" -> {
+                                program.addOpCode((byte) 0x02);
+                                program.addOpCode((byte) 0x07);
                             }
                             default -> {
                                 program.addOpCode((byte) 0x01);
@@ -62,6 +77,22 @@ public class Assembler {
                                 program.addOpCode((byte) 0x04);
                                 program.addOpCode((byte) 0x03);
                             }
+                            case "ca" -> {
+                                program.addOpCode((byte) 0x04);
+                                program.addOpCode((byte) 0x04);
+                            }
+                            case "cb" -> {
+                                program.addOpCode((byte) 0x04);
+                                program.addOpCode((byte) 0x05);
+                            }
+                            case "cc" -> {
+                                program.addOpCode((byte) 0x04);
+                                program.addOpCode((byte) 0x06);
+                            }
+                            case "cd" -> {
+                                program.addOpCode((byte) 0x04);
+                                program.addOpCode((byte) 0x07);
+                            }
                             default -> {
                                 program.addOpCode((byte) 0x03);
                                 program.addOpCode((byte) HexFormat.fromHexDigits(tokens[1]));
@@ -86,6 +117,22 @@ public class Assembler {
                             case "d" -> {
                                 program.addOpCode((byte) 0x06);
                                 program.addOpCode((byte) 0x03);
+                            }
+                            case "ca" -> {
+                                program.addOpCode((byte) 0x06);
+                                program.addOpCode((byte) 0x04);
+                            }
+                            case "cb" -> {
+                                program.addOpCode((byte) 0x06);
+                                program.addOpCode((byte) 0x05);
+                            }
+                            case "cc" -> {
+                                program.addOpCode((byte) 0x06);
+                                program.addOpCode((byte) 0x06);
+                            }
+                            case "cd" -> {
+                                program.addOpCode((byte) 0x06);
+                                program.addOpCode((byte) 0x07);
                             }
                             default -> {
                                 program.addOpCode((byte) 0x05);
@@ -112,6 +159,22 @@ public class Assembler {
                                 program.addOpCode((byte) 0x08);
                                 program.addOpCode((byte) 0x03);
                             }
+                            case "ca" -> {
+                                program.addOpCode((byte) 0x08);
+                                program.addOpCode((byte) 0x04);
+                            }
+                            case "cb" -> {
+                                program.addOpCode((byte) 0x08);
+                                program.addOpCode((byte) 0x05);
+                            }
+                            case "cc" -> {
+                                program.addOpCode((byte) 0x08);
+                                program.addOpCode((byte) 0x06);
+                            }
+                            case "cd" -> {
+                                program.addOpCode((byte) 0x08);
+                                program.addOpCode((byte) 0x07);
+                            }
                             default -> {
                                 program.addOpCode((byte) 0x07);
                                 program.addOpCode((byte) HexFormat.fromHexDigits(tokens[1]));
@@ -136,7 +199,7 @@ public class Assembler {
                     case "cmp" -> {
                         switch (tokens[1]) {
                             case "a" -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
                                     program.addOpCode((byte) 0x13);
                                 } else {
                                     program.addOpCode((byte) 0x11);
@@ -144,7 +207,7 @@ public class Assembler {
                                 program.addOpCode((byte) 0x00);
                             }
                             case "b" -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
                                     program.addOpCode((byte) 0x13);
                                 } else {
                                     program.addOpCode((byte) 0x11);
@@ -152,7 +215,7 @@ public class Assembler {
                                 program.addOpCode((byte) 0x01);
                             }
                             case "c" -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
                                     program.addOpCode((byte) 0x13);
                                 } else {
                                     program.addOpCode((byte) 0x11);
@@ -160,15 +223,47 @@ public class Assembler {
                                 program.addOpCode((byte) 0x02);
                             }
                             case "d" -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
                                     program.addOpCode((byte) 0x13);
                                 } else {
                                     program.addOpCode((byte) 0x11);
                                 }
                                 program.addOpCode((byte) 0x03);
                             }
+                            case "ca" -> {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
+                                    program.addOpCode((byte) 0x13);
+                                } else {
+                                    program.addOpCode((byte) 0x11);
+                                }
+                                program.addOpCode((byte) 0x04);
+                            }
+                            case "cb" -> {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
+                                    program.addOpCode((byte) 0x13);
+                                } else {
+                                    program.addOpCode((byte) 0x11);
+                                }
+                                program.addOpCode((byte) 0x05);
+                            }
+                            case "cc" -> {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
+                                    program.addOpCode((byte) 0x13);
+                                } else {
+                                    program.addOpCode((byte) 0x11);
+                                }
+                                program.addOpCode((byte) 0x06);
+                            }
+                            case "cd" -> {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
+                                    program.addOpCode((byte) 0x13);
+                                } else {
+                                    program.addOpCode((byte) 0x11);
+                                }
+                                program.addOpCode((byte) 0x07);
+                            }
                             default -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
                                     program.addOpCode((byte) 0x12);
                                 } else {
                                     program.addOpCode((byte) 0x10);
@@ -182,6 +277,10 @@ public class Assembler {
                             case "b" -> program.addOpCode((byte) 0x01);
                             case "c" -> program.addOpCode((byte) 0x02);
                             case "d" -> program.addOpCode((byte) 0x03);
+                            case "ca" -> program.addOpCode((byte) 0x04);
+                            case "cb" -> program.addOpCode((byte) 0x05);
+                            case "cc" -> program.addOpCode((byte) 0x06);
+                            case "cd" -> program.addOpCode((byte) 0x07);
                             default -> program.addOpCode((byte) HexFormat.fromHexDigits(tokens[2]));
                         }
 
@@ -246,39 +345,23 @@ public class Assembler {
                     case "mov" -> {
                         switch (tokens[1]) {
                             case "a" -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
-                                    program.addOpCode((byte) 0x21);
-                                } else {
-                                    program.addOpCode((byte) 0x19);
-                                }
+                                genMov(program, tokens);
                                 program.addOpCode((byte) 0x00);
                             }
                             case "b" -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
-                                    program.addOpCode((byte) 0x21);
-                                } else {
-                                    program.addOpCode((byte) 0x19);
-                                }
+                                genMov(program, tokens);
                                 program.addOpCode((byte) 0x01);
                             }
                             case "c" -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
-                                    program.addOpCode((byte) 0x21);
-                                } else {
-                                    program.addOpCode((byte) 0x19);
-                                }
+                                genMov(program, tokens);
                                 program.addOpCode((byte) 0x02);
                             }
                             case "d" -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
-                                    program.addOpCode((byte) 0x21);
-                                } else {
-                                    program.addOpCode((byte) 0x19);
-                                }
+                                genMov(program, tokens);
                                 program.addOpCode((byte) 0x03);
                             }
                             default -> {
-                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d")) {
+                                if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
                                     program.addOpCode((byte) 0x20);
                                 } else {
                                     program.addOpCode((byte) 0x18);
@@ -302,5 +385,13 @@ public class Assembler {
         }
 
         return program;
+    }
+
+    private static void genMov(Program program, String[] tokens) {
+        if (tokens[2].equals("a") || tokens[2].equals("b") || tokens[2].equals("c") || tokens[2].equals("d") || tokens[2].equals("ca") || tokens[2].equals("cb") || tokens[2].equals("cc") || tokens[2].equals("cd")) {
+            program.addOpCode((byte) 0x21);
+        } else {
+            program.addOpCode((byte) 0x19);
+        }
     }
 }
