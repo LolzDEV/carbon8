@@ -10,6 +10,14 @@ public class Program {
         data.add(opcode);
     }
 
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (byte b : this.data) {
+            builder.append(Integer.toHexString(b)).append(" ");
+        }
+        return builder.toString();
+    }
+
     public void loadData(String data) {
         for (String b : data.split(" ")) {
             this.data.add((byte)HexFormat.fromHexDigits(b));

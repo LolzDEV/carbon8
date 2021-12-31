@@ -9,25 +9,22 @@ import java.nio.file.Path;
 import java.util.Arrays;
 
 public class Main {
+    static byte[] memory = new byte[Cpu.MEMORY_SIZE];
+
     public static void main(String[] args) throws URISyntaxException, IOException {
-        Program program1 = Assembler.assemble(Files.readString(Path.of(Main.class.getResource("test.asm").toURI())));
+        Program program = Assembler.assemble(Files.readString(Path.of(Main.class.getResource("test.asm").toURI())));
 
-        System.out.println(program1.data);
-
-        String programString = "01 0F";
-        Program program = new Program();
-
-
-        program.loadData(programString);
-
-        System.out.println(program.data);
+        System.out.println("Binary Output: " + program);
 
         Cpu cpu = new Cpu();
 
-        cpu.loadInMemory(program1);
+        cpu.loadInMemory(program);
+
+        memory = cpu.memory;
 
         cpu.run();
 
-        System.out.println(Arrays.toString(cpu.registers));
+        System.out.println("CPU Status at the end of the execution: A:" + cpu.status.get(0) + " B: " + cpu.status.get(1));
+        System.out.println("Registers at the end of the execution: " + Arrays.toString(cpu.registers));
     }
 }
