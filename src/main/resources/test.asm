@@ -1,8 +1,9 @@
 :loop
-lda 1F
+lda 0F
 ldb a
-cmp a 1F
-; Comment
-mov 00 01
-mov 01 0F
+mov a 0F
+cmp 2F 0F
 jeq :loop
+jne :end
+:end
+ldc 0E

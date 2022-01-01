@@ -12,11 +12,25 @@ public class Assembler {
         short PC = 0x0000;
 
         String[] lines = assemblySource.split(System.getProperty("line.separator"));
+
         for (String line : lines) {
             String[] tokens = line.split(" ");
             if (tokens[0].startsWith(":")) {
                 labels.put(tokens[0].substring(1), PC);
+                System.out.println("Label " + tokens[0] + " inserted at " + PC);
             } else if (!tokens[0].startsWith(";")) {
+                switch (tokens[0]) {
+                    case "lda", "ldb", "ldc", "ldd" -> PC += 2;
+                    case "jmp", "cmp", "jeq", "jne", "jgt", "jng", "mov" -> PC += 3;
+                }
+            }
+        }
+
+        PC = 0x0000;
+
+        for (String line : lines) {
+            String[] tokens = line.split(" ");
+            if (!tokens[0].startsWith(";")) {
                 switch (tokens[0]) {
                     case "lda" -> {
                         switch (tokens[1]) {
@@ -186,13 +200,13 @@ public class Assembler {
                         program.addOpCode((byte) 0x09);
                         if (tokens[1].startsWith(":")) {
                             if (labels.containsKey(tokens[1].substring(1))) {
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0xFF));
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0x00FF));
+                                program.addOpCode((byte) (((byte) (labels.get(tokens[1].substring(1)) & 0xFF00)) >> 8));
+                                program.addOpCode(((byte) (labels.get(tokens[1].substring(1)) & 0xFF)));
                             }
                         } else {
                             short value = (short) HexFormat.fromHexDigits(tokens[1]);
-                            program.addOpCode((byte) (value & 0xFF));
-                            program.addOpCode((byte) (value & 0x00FF));
+                            program.addOpCode((byte) (((byte) (value & 0xFF00)) >> 8));
+                            program.addOpCode(((byte) (value & 0xFF)));
                         }
                         PC += 3;
                     }
@@ -290,13 +304,13 @@ public class Assembler {
                         program.addOpCode((byte) 0x14);
                         if (tokens[1].startsWith(":")) {
                             if (labels.containsKey(tokens[1].substring(1))) {
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0xFF));
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0x00FF));
+                                program.addOpCode((byte) (((byte) (labels.get(tokens[1].substring(1)) & 0xFF00)) >> 8));
+                                program.addOpCode(((byte) (labels.get(tokens[1].substring(1)) & 0xFF)));
                             }
                         } else {
                             short value = (short) HexFormat.fromHexDigits(tokens[1]);
-                            program.addOpCode((byte) (value & 0xFF));
-                            program.addOpCode((byte) (value & 0x00FF));
+                            program.addOpCode((byte) (((byte) (value & 0xFF00)) >> 8));
+                            program.addOpCode(((byte) (value & 0xFF)));
                         }
                         PC += 3;
                     }
@@ -304,13 +318,13 @@ public class Assembler {
                         program.addOpCode((byte) 0x15);
                         if (tokens[1].startsWith(":")) {
                             if (labels.containsKey(tokens[1].substring(1))) {
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0xFF));
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0x00FF));
+                                program.addOpCode((byte) (((byte) (labels.get(tokens[1].substring(1)) & 0xFF00)) >> 8));
+                                program.addOpCode(((byte) (labels.get(tokens[1].substring(1)) & 0xFF)));
                             }
                         } else {
                             short value = (short) HexFormat.fromHexDigits(tokens[1]);
-                            program.addOpCode((byte) (value & 0xFF));
-                            program.addOpCode((byte) (value & 0x00FF));
+                            program.addOpCode((byte) (((byte) (value & 0xFF00)) >> 8));
+                            program.addOpCode(((byte) (value & 0xFF)));
                         }
                         PC += 3;
                     }
@@ -318,13 +332,13 @@ public class Assembler {
                         program.addOpCode((byte) 0x16);
                         if (tokens[1].startsWith(":")) {
                             if (labels.containsKey(tokens[1].substring(1))) {
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0xFF));
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0x00FF));
+                                program.addOpCode((byte) (((byte) (labels.get(tokens[1].substring(1)) & 0xFF00)) >> 8));
+                                program.addOpCode(((byte) (labels.get(tokens[1].substring(1)) & 0xFF)));
                             }
                         } else {
                             short value = (short) HexFormat.fromHexDigits(tokens[1]);
-                            program.addOpCode((byte) (value & 0xFF));
-                            program.addOpCode((byte) (value & 0x00FF));
+                            program.addOpCode((byte) (((byte) (value & 0xFF00)) >> 8));
+                            program.addOpCode(((byte) (value & 0xFF)));
                         }
                         PC += 3;
                     }
@@ -332,13 +346,13 @@ public class Assembler {
                         program.addOpCode((byte) 0x17);
                         if (tokens[1].startsWith(":")) {
                             if (labels.containsKey(tokens[1].substring(1))) {
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0xFF));
-                                program.addOpCode((byte) (labels.get(tokens[1].substring(1)) & 0x00FF));
+                                program.addOpCode((byte) (((byte) (labels.get(tokens[1].substring(1)) & 0xFF00)) >> 8));
+                                program.addOpCode(((byte) (labels.get(tokens[1].substring(1)) & 0xFF)));
                             }
                         } else {
                             short value = (short) HexFormat.fromHexDigits(tokens[1]);
-                            program.addOpCode((byte) (value & 0xFF));
-                            program.addOpCode((byte) (value & 0x00FF));
+                            program.addOpCode((byte) (((byte) (value & 0xFF00)) >> 8));
+                            program.addOpCode(((byte) (value & 0xFF)));
                         }
                         PC += 3;
                     }

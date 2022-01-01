@@ -13,7 +13,7 @@ public class Program {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (byte b : this.data) {
-            builder.append(Integer.toHexString(b)).append(" ");
+            builder.append(b).append(" ");
         }
         return builder.toString();
     }
